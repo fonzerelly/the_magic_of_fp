@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono';  }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Title
+
+---
+
+# Agenda
+
+0. Thema 1...
+0. Thema 2...
+0. Thema 3...
+
+---
+
+#Code Example
+```javascript
+console.log("Hello world");
+
+```
+
+---
+
+
+    </textarea>
+
+    <script src="scripts/remark-latest.min.js">
+    </script>
+    <script>
+var slideshow = remark.create({
+  highlightLanguage: 'javascript',
+  highlightStyle: 'railscasts'
+});
+    </script>
+  </body>
+</html>
+<!--  <mindmap> -->
+<!--  *wenn ich eine funktion curry was erreiche ich damit -->
+<!--  * ICH ERREICHE DASS EIN PARAMETER FESTGELEGT IST -->
+<!--  +HEIsst daas zwangsläufig auch, dass die funktion pure ist? Nein: -->
+<!--     selbst der festgetackerte parameter kann sich dynamishc ändern wenn er ein referenz objekt ist -->
+<!--  * aber ich kann annahmen über die Änderung des Parameters treffen -->
+<!--    dass er sich nicht ändert... dann muss ich ihn aber auch nicht zwingend -->
+<!--    currien -->
+<!-- * warum curry ich nen Parameter? -->
+<!--   Weil ich die Funktion in einem Kontext verwenden will, in der ich ihr -->
+<!--   diesen Parameter nicht zur Verfügung stellen kann. -->
+<!--  -->
+<!--   get(member, obj) -->
+<!--   map([objs],get("name")) -->
+<!--   Was hat das nun mit dem unabhängig machen vom context zu tun? -->
+<!--   &#45;> Ich kann von der Funktion via curry viele Varianten bilden, -->
+<!--   die auf unterschiedliche Contexte passen. -->
+<!--  -->
+<!--  </mindmap> -->
+<!-- *separate pure from impure &#45;> to take advantage of memoization -->
+
+<!-- Verbesserungsvorschläge: -->
+<!-- &#45; Reduce life vorführung -->
+<!-- &#45; Reduce beispiel mit Sum, Beispiel mit größer werdendem Array -->
+<!--  -->
+<!-- &#45; Partial application life Vorführung -->
+<!-- &#45; Klarstellen, dass es darauf ankommt, die Parameteranzahl auf 1 oder 0 zu bekommen, -->
+<!--    so dass man die Funktionen mit map, und reduce gut verwenden kann. -->
+<!--  -->
+<!--    ?brauchen wir überhaupt reduce? -->
+<!--  -->
+<!-- &#45; Live vorführung memoize mit chatty add -->
+<!--    !!! lodash wird auf der repl schnell undefined &#45; warum? !!! -->
+<!--  -->
