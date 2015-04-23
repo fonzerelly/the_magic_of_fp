@@ -13,7 +13,7 @@
         font-family: 'Yanone Kaffeesatz';
         font-weight: normal;
       }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono';  }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; font-size: 1.5em }
     </style>
   </head>
   <body>
@@ -21,18 +21,76 @@
 
 class: center, middle
 
-# Title
+# Einf&uuml;hrung in die Funktionale Programmierung
+## f&uuml;r die DAB
 
 ---
 
 # Agenda
 
-0. Thema 1...
-0. Thema 2...
-0. Thema 3...
+0. ### Was zeichnet einen Magie aus?
+0. ### Die Magie von JavaScript
+0. ### Schleifen im neuen Licht
+0. ### Was nicht passt wird passend gemacht
+0. ### Ausblick: Function-Recycling
 
 ---
+class: center, middle
+#Was zeichnet Magie aus?
+<img src="images/harry_potter.jpg" width="90%">
+---
+## Wie kann Harry Potter ein Buch schweben lassen?
+* ###Steht er mit einer fremden Macht im Bunde?
+* ###Ruft er auf dem Buch-Objekt die "float"-methode auf?
+* ###Beeinflusst er die Flugbahn jedes einzlnen Luftmolek&uuml;ls unter dem Buch?
+* ?!?
+---
+<img src="images/harry_potter_brain.jpg" width="90%">
+---
+## Harry Potter's Zauberspruch
+* ### hat nicht direkt mit dem Buch zu tun
+* ### lässt sich mit anderen Zaubersprüchen kombinieren
+* ### reduziert die Komplexität der Realität
+---
+class: center, middle
+<img src="images/what_if_functional.jpg" width="80%">
 
+---
+##Funktionen "First-Class-Citizens"
+```javascript
+var x = function () {
+  console.log("See me later");
+}
+
+setTimeout(x, 100);
+```
+---
+##Closures
+```javascript
+var remember = function () {
+  var value = 42;
+  return function () {
+    return value;
+  };
+};
+
+var extract = remember();
+
+extract(); //42
+```
+---
+##Higher Order Functions
+like "map"
+```javascript
+[1,2,3].map(function (value) {
+  return value * value;
+}); // [1,4,9]
+```
+---
+class: center, middle
+<img src="images/the-matrix-red-or-blue-pill-o.gif", width="100%">
+###... die Tiefen des Kaninchenbaus ...
+---
 #Code Example
 ```javascript
 console.log("Hello world");
@@ -59,12 +117,12 @@ var slideshow = remark.create({
 <!--  * ICH ERREICHE DASS EIN PARAMETER FESTGELEGT IST -->
 <!--  +HEIsst daas zwangsläufig auch, dass die funktion pure ist? Nein: -->
 <!--     selbst der festgetackerte parameter kann sich dynamishc ändern wenn er ein referenz objekt ist -->
-<!--  * aber ich kann annahmen über die Änderung des Parameters treffen -->
+<!--  * aber ich kann annahmen &uuml;ber die Änderung des Parameters treffen -->
 <!--    dass er sich nicht ändert... dann muss ich ihn aber auch nicht zwingend -->
 <!--    currien -->
 <!-- * warum curry ich nen Parameter? -->
 <!--   Weil ich die Funktion in einem Kontext verwenden will, in der ich ihr -->
-<!--   diesen Parameter nicht zur Verfügung stellen kann. -->
+<!--   diesen Parameter nicht zur Verf&uuml;gung stellen kann. -->
 <!--  -->
 <!--   get(member, obj) -->
 <!--   map([objs],get("name")) -->
@@ -76,15 +134,15 @@ var slideshow = remark.create({
 <!-- *separate pure from impure &#45;> to take advantage of memoization -->
 
 <!-- Verbesserungsvorschläge: -->
-<!-- &#45; Reduce life vorführung -->
-<!-- &#45; Reduce beispiel mit Sum, Beispiel mit größer werdendem Array -->
+<!-- &#45; Reduce life vorf&uuml;hrung -->
+<!-- &#45; Reduce beispiel mit Sum, Beispiel mit gr&ouml;ßer werdendem Array -->
 <!--  -->
-<!-- &#45; Partial application life Vorführung -->
+<!-- &#45; Partial application life Vorf&uuml;hrung -->
 <!-- &#45; Klarstellen, dass es darauf ankommt, die Parameteranzahl auf 1 oder 0 zu bekommen, -->
 <!--    so dass man die Funktionen mit map, und reduce gut verwenden kann. -->
 <!--  -->
-<!--    ?brauchen wir überhaupt reduce? -->
+<!--    ?brauchen wir &uuml;berhaupt reduce? -->
 <!--  -->
-<!-- &#45; Live vorführung memoize mit chatty add -->
+<!-- &#45; Live vorf&uuml;hrung memoize mit chatty add -->
 <!--    !!! lodash wird auf der repl schnell undefined &#45; warum? !!! -->
 <!--  -->
