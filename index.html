@@ -58,11 +58,10 @@ class: center, middle
 ---
 ##Funktionen "First-Class-Citizens"
 ```javascript
-var x = function () {
-  console.log("See me later");
-}
-
-setTimeout(x, 100);
+var clickHandler = function () {
+  console.log("Click occured.");
+};
+$(document).on("click", clickhandler);
 ```
 ---
 ##Closures
@@ -80,16 +79,22 @@ extract(); //42
 ```
 ---
 ##Higher Order Functions
-like "map"
 ```javascript
-[1,2,3].map(function (value) {
-  return value * value;
-}); // [1,4,9]
+var myParams = [1,2,3]
+var sliceParams = myParams.slice.bind(myParams, 1);
+
+setTimeout(sliceParams, 1000); //after one second myParams === [2,3]
+
 ```
 ---
 class: center, middle
 <img src="images/the-matrix-red-or-blue-pill-o.gif", width="100%">
 ###... die Tiefen des Kaninchenbaus ...
+---
+
+#Schleifen in neuem Licht
+---
+#
 ---
 #Code Example
 ```javascript
