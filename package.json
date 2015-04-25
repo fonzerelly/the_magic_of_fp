@@ -1,0 +1,25 @@
+{
+  "name": "The_Magic_of_Functional_Programming",
+  "version": "0.0.1",
+  "description": "This talk shall give a short introduction into the basics of functional programming",
+  "main": "index.html",
+  "dependencies": {
+    "gulp": "^3.8.11"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fonzerelly/the_magic_of_fp.git"
+  },
+  "keywords": [
+    "remark.js",
+    "talk"
+  ],
+  "author": "Christian Hörauf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fonzerelly/the_magic_of_fp/issues"
+  },
+  "homepage": "https://fonzerelly.github.io/the_magic_of_fp"
+}
+
