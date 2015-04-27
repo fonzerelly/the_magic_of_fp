@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>The Magic of Functional Programming</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -13,50 +13,48 @@
         font-family: 'Yanone Kaffeesatz';
         font-weight: normal;
       }
+      li {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+        font-size: 2em;
+      }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; font-size: 1.5em }
     </style>
   </head>
   <body>
     <textarea id="source">
 
+
 class: center, middle
 
-# Einf&uuml;hrung in die Funktionale Programmierung
-## f&uuml;r die DAB
-
----
-
-# Agenda
-
-0. ### Was zeichnet einen Magie aus?
-0. ### Die Magie von JavaScript
-0. ### Schleifen im neuen Licht
-0. ### Was nicht passt wird passend gemacht
-0. ### Ausblick: Function-Recycling
+# The Magic of Functional Programming
+## for DAB
 
 ---
 class: center, middle
-#Was zeichnet Magie aus?
-<img src="images/harry_potter.jpg" width="90%">
+# How does Magic work?
+<img src="images/harry_potter.jpg" width="60%">
 ---
-## Wie kann Harry Potter ein Buch schweben lassen?
-* ###Steht er mit einer fremden Macht im Bunde?
-* ###Ruft er auf dem Buch-Objekt die "float"-methode auf?
-* ###Beeinflusst er die Flugbahn jedes einzlnen Luftmolek&uuml;ls unter dem Buch?
+## How does Harry Potter let a book float?
+* Does he cooperate with the devil or god?
+* Does he call the "float"-method on the object book?
+* Does he steer all air molecules below the book upwards?
 * ?!?
 ---
-<img src="images/harry_potter_brain.jpg" width="90%">
+class: center, middle
+#Nah - he is not that smart!
+<img src="images/harry_potter_brain.jpg" width="60%">
 ---
-## Harry Potter's Zauberspruch
-* ### hat nicht direkt mit dem Buch zu tun
-* ### lässt sich mit anderen Zaubersprüchen kombinieren
-* ### reduziert die Komplexität der Realität
+## Harry Potter's magic spell
+* is not connected to the book directly
+* can be combined with other spells
+* is an interface to reduce the complexity of reality
 ---
 class: center, middle
 <img src="images/what_if_functional.jpg" width="80%">
-
+<!-- comment blah -->
 ---
-##Funktionen "First-Class-Citizens"
+##Functions are "First-Class-Citizens"
 ```javascript
 var clickHandler = function () {
   console.log("Click occured.");
@@ -80,27 +78,117 @@ extract(); //42
 ---
 ##Higher Order Functions
 ```javascript
-var myParams = [1,2,3]
-var sliceParams = myParams.slice.bind(myParams, 1);
+var myParams = [1,2,3],
+    sliceParams = myParams
+      .slice
+      .bind(myParams, 1);
 
-setTimeout(sliceParams, 1000); //after one second myParams === [2,3]
+setTimeout(sliceParams, 1000);
+//after one second myParams === [2,3]
 
 ```
 ---
 class: center, middle
+#... and I'll show you how deep the rabbit hole goes ...
 <img src="images/the-matrix-red-or-blue-pill-o.gif", width="100%">
-###... die Tiefen des Kaninchenbaus ...
 ---
-
-#Schleifen in neuem Licht
----
-#
----
-#Code Example
+## What is the problem with this kind of loop?
 ```javascript
-console.log("Hello world");
-
+var nums = [1,2,3];
+for(var i = 0; i &lt; nums.length; i++) {
+  var num = nums[i];
+  console.log(num);
+}
 ```
+* You have to increment a counter variable 'i'
+* Comparing 'i' to the array length may be error prone
+* You have to extract the array element from the array by the counter
+
+---
+## JavaScript can do far better then that
+```javascript
+[1,2,3].forEach(function (num) {
+  console.log(num);
+});
+```
+* JS-Arrays come nativly with a forEach-Method
+* Complexity gets reduced
+* Shorter and clearer code
+---
+class: middle, center
+#Side Effects
+<img src="/images/butterfly_effect.gif" width="90%">
+---
+## forEach is not appropriate for mutation
+```javascript
+[1,2,3].forEach(function (num) {
+  return num * num;
+}); // returns undefined
+```
+* forEach is appropriate for Side-Effect calls like console.log
+* Usually you want to prevent SideEffects that might mutate globals...
+* You can not manipulate the array in place
+---
+## map lets you create a new version of the array
+```javascript
+[1,2,3].map(function (num) {
+  return num * num;
+}); // returns [1,4,9]
+```
+* map creates a new array corresponding to the return values of your mapping function
+* keeping your original array as it was assures that other parts of your programm that depend on it still work as expected
+---
+## By the way...
+```javascript
+var square = function (x) {
+  return x * x
+};
+[1,2,3].map(square);
+```
+* ... this is not only a new way to write loops
+* You can also pass predefined mapping functions into .map or .forEach
+
+---
+class: center, middle
+<img src="images/funny_or_not.jpg" width="90%">
+---
+## Predicate-Function
+```javascript
+var isFunny= function (joke) {
+  return Boolean(joke.pointe);
+};
+```
+* A so called predicate-function evaluates input data and returns
+only a boolean value.
+<!-- &#45; Eine Prädikats&#45;Funktion bewertet den Eingabe&#45;Parameter und liefert -->
+<!--   einen boolean wert zurück, der die Annahme über den Eingabeparameter -->
+<!--   bestätigt oder widerlegt -->
+<!-- &#45; Prädikats&#45;Funktionen eignen sich zum Beispiel um eine Liste nach einer -->
+<!--   Eigenschaft deren Elemente zu sortieren. -->
+<!-- &#45; Genauso kann eine Prädikatis&#45;Funktion dazu dienen Elemente, die eine -->
+<!--   bestimmte Eigenschaft nicht erfüllen zu filtern: -->
+---
+##Filter
+```javascript
+var jokes = [
+  { type: "Chuck-Norris",
+    text: "If a Chuck-Norris programm crashes,"
+    pointe: "it is a feature!" },
+  { type: "Math",
+    text: "Black Holes are, where God devided"
+    pointe: 1/0 }
+};
+jokes.filter(isFunny); // [{type:"Chuck-Norris",pointe: "..."}]
+```
+* You can use a so called predicate function that returns true or false to
+  filter elements from a list.
+
+<!-- &#45; Was haben nun die bisher gezeigten Schleifen&#45;Funktionen gemeinsam? -->
+<!--     &#45;> Sie haben nur einen Parameter &#45; nämlich das Listenelement, das wir  -->
+<!--        näher untersuchen wollen -->
+<!-- &#45; Jetzt haben aber nicht alle Funktionen die wir schreiben nur einen Parameter -->
+<!--     &#45;> Was tun, wenn ich sie nun doch direkt in so eine Schleifen&#45;Funktion übergeben will? -->
+<!--  -->
 
 ---
 
