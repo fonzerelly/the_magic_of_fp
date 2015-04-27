@@ -32,27 +32,53 @@ class: center, middle
 
 ---
 class: center, middle
-# How does Magic work?
-<img src="images/harry_potter.jpg" width="60%">
----
 ## How does Harry Potter let a book float?
-* Does he cooperate with the devil or god?
-* Does he call the "float"-method on the object book?
-* Does he steer all air molecules below the book upwards?
-* ?!?
+<img src="images/harry_potter.jpg" width="60%">
+
+- Steht er mit einer höheren Macht im Bunde?
+- Ruft er die "float"-Methode des Buch-Objekts auf?
+- Zieht er vielleicht alle Luftmoleküle unter dem Buch zusammen, so dass ein Luftkissen entsteht?
+
 ---
 class: center, middle
-#Nah - he is not that smart!
+##Nah - he is not that smart!
 <img src="images/harry_potter_brain.jpg" width="60%">
+<!-- &#45; Höhere Macht ist zwar Möglich, aber was wäre dan HP ohne diese Macht? Warum dreht sich  -->
+<!--   dann in den Geschichten nicht alles um Gott oder den Teufel -->
+<!-- &#45; Wenn es am Buch tatsächlich eine "float"&#45;Methode geben sollte, würde ich mir ernsthaft -->
+<!--   um das Design der Realität sorgen machen. -->
+<!-- &#45; Vielleicht, aber wie wählt er die Moleküle aus? -->
 ---
 ## Harry Potter's magic spell
 * is not connected to the book directly
 * can be combined with other spells
 * is an interface to reduce the complexity of reality
+
+<!-- Eines ist jedenfalls klar. Der Zauberspruch von Harry Potter muss folgende Anforderungen erfüllen: -->
+<!-- &#45; Der Zauberspruch hat nix mit dem Buch zu tun. Man kann den Schwebespruch auf alle möglichen "Objekte" anwenden. -->
+<!-- &#45; Man kann den Schwebespruch mit anderen Zaubersprüchen  kombinieren -->
+<!-- &#45; Der Zauberspruch vereinfacht die Zugriff auf die Realität, in dem er zum einen -->
+<!--    &#45; die richtigen Luftmoleküle auswählt -->
+<!--    &#45; jedes einzelne Luftmolekühl in Aufwärtsbewegung versetzt. -->
+<!--    &#45; Für beides dürfte ein anderer Magier sich schon mal einen Spruch ausgedacht haben, -->
+<!--      so dass der Schwebespruch selbst wohl eine Kombination von Sprüchen enthält. -->
+<!--  -->
+<!-- Warum erzähl ich Euch überhaupt was über Harry Potter? Weil Programmieren meiner Meinung nach -->
+<!-- viel mit Zauberrei zu tun hat. Und wie wir vielleicht noch sehen werden, gelten für Software -->
+<!-- ähnliche Anforderungen wie für Zaubersprüche. Ich behaupte, dass wir mit Funktionaler Programierung -->
+<!-- viel leichter diese Anforderungen erfüllen können... -->
+
 ---
 class: center, middle
 <img src="images/what_if_functional.jpg" width="80%">
-<!-- comment blah -->
+
+<!-- Wenn Ihr schon mal JavaScript geschrieben habt, habt ihr mit großer Wahrscheinlichkeit schon mal -->
+<!-- ansatzweise Funktional programmiert. Das kommt daher, dass xxx bei der Entwicklung von JavaScript -->
+<!-- eher Scheme im Hinterkopf hatte als Java. Man hat JavaScript damals eigentlich nur aus Marketing&#45;Gründen -->
+<!-- "Java" genannt und mit relativ schlechten Vererbungs&#45;Methoden versehen, weil eben Java damals der große -->
+<!-- der "nhS" (neuester heißer Scheiß) war. -->
+<!-- Was aber die wahre Macht von JavaScript ausmacht, sind Features die erst kürzlich Java8 hinzugefügt wurden. -->
+<!-- Damit meine ich z.B. Lamdas und Closures -->
 ---
 ##Functions are "First-Class-Citizens"
 ```javascript
@@ -61,6 +87,10 @@ var clickHandler = function () {
 };
 $(document).on("click", clickhandler);
 ```
+<!-- JavaScript&#45;Funktionen sind so genannte "First&#45;Class&#45;Citizens". D.h. sie können nach belieben  -->
+<!-- &#45; Variablen zugeordnet werden,  -->
+<!-- &#45; anderen Funktionen als Parameter über geben werden,  -->
+<!-- &#45; ja sogar Rückgabewerte von anderen Funktionen sein. -->
 ---
 ##Closures
 ```javascript
@@ -75,6 +105,12 @@ var extract = remember();
 
 extract(); //42
 ```
+<!-- Der Function&#45;Scope von JavaScript erlaubt es nicht nur einer Funktion auf die Variablen der sie -->
+<!-- umschließenden Funktion zu zugreifen, Die Variablen bleiben sogar erhalten, wenn die darauf ver&#45; -->
+<!-- weisende Funktion als Rückgabewert den Function&#45;Scope verlässt. D.h. obwohl sogar die remember&#45; -->
+<!-- funktion in diesem Beispiel ausgeführt wurde, bleibt der Wert der Variable value erhalten. Diesen -->
+<!-- Speicherzustand nennt man Clousre. -->
+
 ---
 ##Higher Order Functions
 ```javascript
@@ -87,10 +123,31 @@ setTimeout(sliceParams, 1000);
 //after one second myParams === [2,3]
 
 ```
+<!-- Sog. Higher Order Functions wie setTimeout nehmen Funktionen als Parameter entgegen und/oder geben -->
+<!-- Funktionen als Rückgabewert zurück. -->
+
 ---
 class: center, middle
-#... and I'll show you how deep the rabbit hole goes ...
+##... and I'll show you how deep the rabbit hole goes ...
 <img src="images/the-matrix-red-or-blue-pill-o.gif", width="100%">
+
+<!-- Durch diese Grundlagen ergeben sich ganz neue, ungeahnte Möglichkeiten zur Code&#45;Strukturierung.  -->
+<!-- Ich für meinen Teil habe mir völlig neue Denkmuster über das Programmieren zugelegt und glaube -->
+<!-- ein besserer Programmierer geworden zu sein, seit ich Funktional denke.  -->
+<!-- Aber ich muss ehrlich sein, nicht nur das. Jedesmal wenn ich jetzt Java&#45;Code in die Hand nehmen  -->
+<!-- muss kommt mir Java so unglaublich umständich vor. Alle Leute die ich kenne und sich mit Funktionaler -->
+<!-- Programmierung angefreundet haben empfinden ebenso. Ich wette, es wird Euch ähnlich ergehen, wenn -->
+<!-- ihr nach meinem Vortrag tiefer einsteigt. -->
+---
+class: center, middle
+## Reduce Complexity
+<img src="images/groundhog_day.gif" width="100%">
+<!-- Für mich hat Funktionale Prorammierung angefangen, als ich noch mit C++ Navi&#45;Software geschrieben  -->
+<!-- habe. Ständig habe ich furchtbar umständlichen Code geschrieben, der kaum wartbar war. Teilweise -->
+<!-- sogar nach der Copy&#38;Paste&#45;Methode. -->
+<!-- Selbst das schreiben von Schleifen war so umständlich, dass ich selbst nach mehreren Jahren immer  -->
+<!-- wieder mal Tipfehler reingebaut habe, die ich nicht auf den ersten Blick erkennen konnte.  -->
+<!-- Ich habe gelernt, wie wichtig es ist, jede Möglichkeit Komplexität im Code zu reduzieren.  -->
 ---
 ## What is the problem with this kind of loop?
 ```javascript
@@ -100,9 +157,11 @@ for(var i = 0; i &lt; nums.length; i++) {
   console.log(num);
 }
 ```
-* You have to increment a counter variable 'i'
-* Comparing 'i' to the array length may be error prone
-* You have to extract the array element from the array by the counter
+<!-- Was ist z.B. bei dieser Schleife unnötig kompliziert? -->
+<!--  -->
+<!-- &#45; Wir müssen eine Zähler&#45;Variable pro Schleifendurchlauf mutieren -->
+<!-- &#45; Beim Vergleich der Zähler&#45;Variable zur Array&#45;Länge können sich leicht Fehler einschleichen -->
+<!-- &#45; Wir müssen nochmal extra das Element, welches uns interessiert, aus der Liste extrahieren -->
 
 ---
 ## JavaScript can do far better then that
@@ -114,10 +173,35 @@ for(var i = 0; i &lt; nums.length; i++) {
 * JS-Arrays come nativly with a forEach-Method
 * Complexity gets reduced
 * Shorter and clearer code
+
+<!-- Die Arrays von JavaScript kommen mit mehreren Funktion höherer Ordnung, die das Iterieren -->
+<!-- über Listen wesentlich vereinfachen. forEach z.B. erwartet eine Callback&#45;Funktion, die für jedes -->
+<!-- Element in der Liste einmal aufgerufen wird. Die Zählervariable entfällt komplett. Stattdessen -->
+<!-- bekomme ich das ListenElement automatisch in die Callback&#45;Funktion hineingereicht und kann damit -->
+<!-- arbeiten. -->
+
 ---
 class: middle, center
 #Side Effects
 <img src="/images/butterfly_effect.gif" width="90%">
+
+<!-- Aber forEach hat ein Problem. Es eignet sich nur für das gewollte Ausführen von Seiten effekten. -->
+<!-- Was ist ein Seiten&#45;Effekt? -->
+<!--  -->
+<!-- Ein Seiten&#45;Effekt ist die bewuste oder unbewuste manipulation des Gesamt&#45;Systems.  -->
+<!-- console.log auszuführen ist z.B. ein Seiten&#45;Effekt. Denn es wird der State der globalen Console  -->
+<!-- manipuliert und um einen String erweitert. -->
+<!-- Seiten&#45;Effekte sind also wichtig. Sie erlauben die Interaktion mit der Software. Aber sie sind -->
+<!-- stets State&#45;Behaftet so dass sich bei asynchroner Verarbeitung Probleme ergeben. In Sprachen wie -->
+<!-- Java z.B. können mehrere Threads auf eine Variable zukreifen und ihren State manipulieren. Hierfür -->
+<!-- muss umständlich der Zugriff auf eine Variable über Semaphoren und ähnliche Mechanismen serialisiert -->
+<!-- werden. Schaut man sich aber der die Hardware&#45;Entwicklung der letzten Jahre an, so zeigt sich, dass -->
+<!-- das Arbeiten mit mehreren Threads immer wichtiger wird, da die Prozessoren kaum noch Leistungsfähiger -->
+<!-- werden dafür aber immer mehr Prozessorkerne in einem Computer verbaut werden. Um dieses Potential -->
+<!-- auszuschöpfen sollte man darauf achten möglichst wenig Seiten&#45;Effekte in der Software zu verursachen. -->
+<!-- Eine noch so komplexe Funktion kann zum Beispiel für jedes Element einer Liste gleichzeitig auf mehreren -->
+<!-- Prozessoren ausgeführt werden, um dann die Ergebnisse aller Threads wieder zu einem Ausgabe&#45;Array -->
+<!-- zusammen zu führen.  -->
 ---
 ## forEach is not appropriate for mutation
 ```javascript
@@ -128,6 +212,13 @@ class: middle, center
 * forEach is appropriate for Side-Effect calls like console.log
 * Usually you want to prevent SideEffects that might mutate globals...
 * You can not manipulate the array in place
+
+<!-- Davon mal abgesehen, vereinfacht sich das Schreiben von Software massiv, wenn man nicht ständig -->
+<!-- darauf achten muss, in welchem Zustand eine Globale Variable gerade ist und sich eine Funktion -->
+<!-- daran orientieren muss. Das Ziel ist es also stets neue, abgewandelte Versionen eines Arrays -->
+<!-- erstellen, bis man das eigentliche Ergebnis ermittelt hat um sie dann für den Endnutzer auszugeben. -->
+<!--  -->
+<!-- Das wird mit forEach nicht funktionieren. Per Defaut liefert forEach nur undefined zurück. -->
 ---
 ## map lets you create a new version of the array
 ```javascript
