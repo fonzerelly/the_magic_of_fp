@@ -73,7 +73,7 @@ class: center, middle
 <img src="images/what_if_functional.jpg" width="80%">
 
 <!-- Wenn Ihr schon mal JavaScript geschrieben habt, habt ihr mit großer Wahrscheinlichkeit schon mal -->
-<!-- ansatzweise Funktional programmiert. Das kommt daher, dass xxx bei der Entwicklung von JavaScript -->
+<!-- ansatzweise Funktional programmiert. Das kommt daher, dass Brendan Eich bei der Entwicklung von JavaScript -->
 <!-- eher Scheme im Hinterkopf hatte als Java. Man hat JavaScript damals eigentlich nur aus Marketing&#45;Gründen -->
 <!-- "Java" genannt und mit relativ schlechten Vererbungs&#45;Methoden versehen, weil eben Java damals der große -->
 <!-- der "nhS" (neuester heißer Scheiß) war. -->
@@ -178,7 +178,7 @@ for(var i = 0; i &lt; nums.length; i++) {
 <!-- über Listen wesentlich vereinfachen. forEach z.B. erwartet eine Callback&#45;Funktion, die für jedes -->
 <!-- Element in der Liste einmal aufgerufen wird. Die Zählervariable entfällt komplett. Stattdessen -->
 <!-- bekomme ich das ListenElement automatisch in die Callback&#45;Funktion hineingereicht und kann damit -->
-<!-- arbeiten. -->
+<!-- arbeiten. Dieser Code ist weniger komplex, leichter zu Verstehen und elegant. -->
 
 ---
 class: middle, center
@@ -220,7 +220,7 @@ class: middle, center
 <!--  -->
 <!-- Das wird mit forEach nicht funktionieren. Per Defaut liefert forEach nur undefined zurück. -->
 ---
-## map lets you create a new version of the array
+## map lets you create a new version of an array
 ```javascript
 [1,2,3].map(function (num) {
   return num * num;
@@ -228,6 +228,10 @@ class: middle, center
 ```
 * map creates a new array corresponding to the return values of your mapping function
 * keeping your original array as it was assures that other parts of your programm that depend on it still work as expected
+
+<!-- .map speichert das Ergebnis der Callback&#45;Funktion in einem neuen Array, so dass wie in diesem -->
+<!-- Beispiel, seiteneffekt&#45;frei die Quadrate einer Liste ermittelt werden können. .map ist vermutlich -->
+<!-- eine der wichtigsten Funktionen in der funktionalen Denke. -->
 ---
 ## By the way...
 ```javascript
@@ -239,9 +243,18 @@ var square = function (x) {
 * ... this is not only a new way to write loops
 * You can also pass predefined mapping functions into .map or .forEach
 
+<!-- Dabei sei erwähnt, dass die Schreibweise mit der Funktion nicht einfach nur eine Durchgeknallte -->
+<!-- Methode ist eine Schleife zu schreiben. Was wir bisher gemacht haben, war dass wir stets eine  -->
+<!-- anonyme Funktion als Callback definiert haben. Das muss aber nicht so sein. Wir können ebenso gut -->
+<!-- benannte Funktionen übergeben, die wir auch an anderer Stelle wieder verwenden könnten. Dafür gibt -->
+<!-- es noch weitere Beispiele. -->
+<!--  -->
 ---
 class: center, middle
 <img src="images/funny_or_not.jpg" width="90%">
+<!-- Jean&#45;Luc hier hat das Problem, dass er zwischen lustigen und unlustigen Witzen unterscheiden soll. -->
+<!-- Wenn wir nun eine Funktion schreiben, die ihm das erlaubt, wie sieht ihr Interface aus und wo -->
+<!-- könnte man die Funktion noch einsetzen. -->
 ---
 ## Predicate-Function
 ```javascript
@@ -269,19 +282,133 @@ var jokes = [
     text: "Black Holes are, where God devided"
     pointe: 1/0 }
 };
-jokes.filter(isFunny); // [{type:"Chuck-Norris",pointe: "..."}]
+jokes.filter(isFunny);
+// [{type:"Chuck-Norris",text: "..."}]
 ```
 * You can use a so called predicate function that returns true or false to
   filter elements from a list.
+
+<!-- Ähnlich wie .map liefert.filter ein neues Array, in dem jedoch all die Listen&#45;Elemente fehlen, -->
+<!-- für die die Prädikats&#45;Funktion false zurück geliefert hat. So kommt es, dass in diesem -->
+<!-- Beispiel nur der Chuck&#45;Norris&#45;Witz übrig bleibt, da die pointe des Mathe&#45;Witzes "undefined" ergibt -->
+
+---
+class: center, middle
+## Spice up your functions
+<img src="images/currying.png" width = "50%">
 
 <!-- &#45; Was haben nun die bisher gezeigten Schleifen&#45;Funktionen gemeinsam? -->
 <!--     &#45;> Sie haben nur einen Parameter &#45; nämlich das Listenelement, das wir  -->
 <!--        näher untersuchen wollen -->
 <!-- &#45; Jetzt haben aber nicht alle Funktionen die wir schreiben nur einen Parameter -->
-<!--     &#45;> Was tun, wenn ich sie nun doch direkt in so eine Schleifen&#45;Funktion übergeben will? -->
-<!--  -->
+<!-- Die Eigenschaft einer Funktion, die angibt wie viele Parameter diese benötigt um ein valides -->
+<!-- Ergebnis zu liefern nennen wir: Arity -->
+
 
 ---
+## Arity
+```javascript
+var add = function (a, b) {
+  return a + b;
+};
+```
+* Arity is the property of a function, that describes how many parameters are needed.
+* In this example the function "add" has the arity of 2.
+
+<!-- Die Funktion 'add' hier hat eine Arity von 2, da sie die beiden -->
+<!-- Parameter a und b benötigt. Möchte ich nun die add&#45;Funktion z.B. in einer .map&#45;Anweisung verwenden, -->
+<!-- dann hab ich ein Problem. Denn .map liefert mir immer nur einen Parameter der Liste.  -->
+<!--     &#45;> Was tun, wenn ich sie nun doch direkt in so eine Schleifen&#45;Funktion übergeben will? -->
+
+---
+##Embedding in a Function
+```javascript
+var inc2 = function(b) {
+  return add(2, b);
+};
+inc2(3) //5
+
+[1,2,3].map(inc2); //[3,4,5]
+```
+<!-- Wenn wir add nicht neu schreiben wollen, (weil die funktion ja so komplex ist ;) dann können wir -->
+<!-- add von einer neuen Funktion aus aufrufen. -->
+<!-- In diesem Beispiel hier packen wir add in ein Closure,  und legen für a den Wert 2 fest, so dass die neue Funktion inc2 jedweden  -->
+<!-- Parameter um 2 erhöt. inc2 benötigt nun nur noch den Parameter und kann Problemlos in .map übergeben  -->
+<!-- werden. -->
+---
+##Binding a Function
+```javascript
+var inc2 = add.bind(null, 2)
+inc2(3) //5
+
+[1,2,3].map(inc2); //[3,4,5]
+```
+<!-- Diese Schreibarbeit lässt sich durch das "binden" einer Funktion verkürzen. Jedes Function&#45;Object -->
+<!-- in JavaScript verfügt über eine.bind&#45;Methode. Vermutlich kennt ihr diese Methode eher von der -->
+<!-- Problemstellung, dass ihr eine Methode eines Objekts an setTimeout übergeben wollt und das -->
+<!-- "this"&#45;Binding bewahren wollt. -->
+<!-- Hier wird quasi eine neue Funktion erstellt, deren this.binding festgelegt ist und nicht mehr -->
+<!-- verändert werden kann. Weil unsere add&#45;Methode keinerlei this&#45;Aufrufe beinhaltet können wir -->
+<!-- ruhigen Gewissens null als ersten Parameter vergeben. Alle weiteren Parameter werden aber -->
+<!-- den Eingabeparametern von add zu geordnet beginnend mit dem ersten Parameter von links. -->
+<!-- D.h. auch hier weisen wir dem Parameter a von add den Wert 2 zu. -->
+
+---
+class: middle, center
+<img src="images/curry.png" width="40%">
+
+<!-- Aber es gibt noch eine viel flexiblere Methode, die wir  dem Mathematiker Haskell Curry zu  -->
+<!-- verdanken haben. Er lieh seinem Namen nicht nur dem heute gebräuchlichen Wort "currying" -->
+<!-- was also gar nichts mehr mit Würzen zu tun hat, sondern oben drein auch der Programmiersprache  -->
+<!-- Haskell, die deren Entwickler ihm zu ehren postum so benannt haben.  -->
+---
+class: center, middle
+##Currying
+* The Basic idea behind currying is to take a function with n arguments and create from it n functions
+  with one argument each:
+
+###f(x, y, z) = g(x)(y)(z)
+<!-- Die Idee hinter dem Curring ist folgende: Ich kann aus einer Funktion die n Parameter braucht, -->
+<!-- n Funktionen bauen die jeweils nur einen Parameter brauchen. Haskell Curry beschäftigte sich mit  -->
+<!-- dieser Idee, weil er ähnlich wie wir das Problem hatte, seine Funktionen zu vereinfachen zu müssen  -->
+<!-- um einen mathematischen Beweis einfacher erbringen zu können. -->
+<!-- Wie wir gleich sehen werden, ist diese Idee jedoch nicht praxisfern wie der Mathematik im -->
+<!-- allgemeinen unterstellt wird, sondern das Currying erlaubt uns die Arity einer Funktion noch viel -->
+<!-- flexibler zu manipulieren als die bisherigen Methoden. -->
+---
+##_.curry
+```javascript
+var add = _.curry(function(a, b) {
+  return a + b;
+});
+add(2)    //returns a function with the arity 1
+add(2)(3) //arity of add fullfilled: evaluates 5
+
+var inc2 = add(2);
+
+_.map([1,2,3], inc2);   //[3,4,5]
+//but also:
+_.map([1,2,3], add(3)); //[4,5,6]
+```
+<!-- Bisher haben wir uns auf die  Bordmittel von JavaScript beschränkt. Diese hingen aber imemr -->
+<!-- an bestimmten JavaScript&#45;Objekten dran und werden teilweise nicht von allen JS&#45;Umebungen  -->
+<!-- unterstützt. .bind z.B. gibt es unter PhantomJS nicht. -->
+<!-- Statt dessen greifen wir nun auf Lodash zurück. Diese Library, stellt uns ebenso alle bisher  -->
+<!-- behandelten Funktionen wie .map, .filter und .bind bereit. Aber noch ein Menge mehr. -->
+<!-- Dazu zählt auch _.curry, mit der ich eben eine Funktion wie add mit zwei Parametern in zwei -->
+<!-- Funktionen uwandeln kann.  -->
+<!--  -->
+<!-- Was heißt das genau? Im Obigen Beispiel haben wir also add gecurried. -->
+<!-- Wenn ich nun add mit einem Parameter aufrufe bekomme ich nicht NaN zurück, sondern eine -->
+<!-- Funktion der Arity 1. Rufe ich diese wieder mit dem Parameter 3 auf, ist die Arity von add erfüllt -->
+<!-- so dass add ausgeführt werden kann und sich die Summe aus 2 und 3 ergibt. Wir können also  -->
+<!-- ähnlich wie zuvor unsere inc2 Funktion erstellen, indem wir schlicht add mit dem Parameter 2 -->
+<!-- aufrufen. Aber nun können wir mit leichtigkeit verschiedenste Varianten von add bilden. So z.B. -->
+<!-- add(3) und dessen ergebnis einer _.map&#45;Funktion übergeben. -->
+<!--  -->
+
+
+
 
 
     </textarea>
