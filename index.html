@@ -308,9 +308,21 @@ class: center, middle
 ---
 ## Arity
 ```javascript
-var add = function (a, b) {
-  return a + b;
+var get = function (property, obj) {
+  return obj[property];
 };
+
+customers = [
+  {
+    name: "Homer Simpson",
+    adress: "WilcoxDrive 4"
+  },
+  {
+    name: "Montgomery Burns",
+    adress: "BurnsMountain 1"
+  }
+]
+
 ```
 * Arity is the property of a function, that describes how many parameters are needed.
 * In this example the function "add" has the arity of 2.
@@ -323,12 +335,13 @@ var add = function (a, b) {
 ---
 ##Embedding in a Function
 ```javascript
-var inc2 = function(b) {
-  return add(2, b);
+var name = function(b) {
+  return add('name', b);
 };
-inc2(3) //5
+name(customers[0]) //"Homer Simpson"
 
-[1,2,3].map(inc2); //[3,4,5]
+customers.map(name);
+//["Homer Simpson", "Montgomery Burns"]
 ```
 <!-- Wenn wir add nicht neu schreiben wollen, (weil die funktion ja so komplex ist ;) dann können wir -->
 <!-- add von einer neuen Funktion aus aufrufen. -->
@@ -338,10 +351,11 @@ inc2(3) //5
 ---
 ##Binding a Function
 ```javascript
-var inc2 = add.bind(null, 2)
-inc2(3) //5
+var name = get.bind(null, 'name')
+name(customer[0]) //"Homer Simpson"
 
-[1,2,3].map(inc2); //[3,4,5]
+[1,2,3].map(name);
+//["Homer Simpson", "Montgomery Burns"]
 ```
 <!-- Diese Schreibarbeit lässt sich durch das "binden" einer Funktion verkürzen. Jedes Function&#45;Object -->
 <!-- in JavaScript verfügt über eine.bind&#45;Methode. Vermutlich kennt ihr diese Methode eher von der -->
@@ -378,17 +392,20 @@ class: center, middle
 ---
 ##_.curry
 ```javascript
-var add = _.curry(function(a, b) {
-  return a + b;
+var get = _.curry(function (property, obj) {
+  return obj[property];
 });
-add(2)    //returns a function with the arity 1
-add(2)(3) //arity of add fullfilled: evaluates 5
+get('name')    //returns a function with the arity 1
+get('name')(customer[0])
+//arity of get fullfilled: evaluates "Homer Simpson"
 
-var inc2 = add(2);
+var getName = get('name');
 
-_.map([1,2,3], inc2);   //[3,4,5]
+_.map(customers, getName);
+//["Homer Simpson", "Montgomery Burns"]
 //but also:
-_.map([1,2,3], add(3)); //[4,5,6]
+_.map(customers, get('adress'));
+//["WilcoxDrive 4", "BurnsMountain 1"]
 ```
 <!-- Bisher haben wir uns auf die  Bordmittel von JavaScript beschränkt. Diese hingen aber imemr -->
 <!-- an bestimmten JavaScript&#45;Objekten dran und werden teilweise nicht von allen JS&#45;Umebungen  -->
@@ -407,9 +424,99 @@ _.map([1,2,3], add(3)); //[4,5,6]
 <!-- add(3) und dessen ergebnis einer _.map&#45;Funktion übergeben. -->
 <!--  -->
 
+---
+## Playtime :)
+<img src="images/lego.jpg" width="100%">
+!!! Folie über DRY-Development  EVTL bei Schleifen oder bei Harry Potter mit rein!!!
+Im letzten Abschnitt möchte ich Euch noch zeigen, dass man die Funktionen die wir bis jetzt gebaut
+haben wie Legosteine Zusammensetzen kann um komplexere Anforderungen zu realisieren und das praktisch
+ohne Code Duplizierung.
 
+---
+## _.compose
+```javascript
+var init   = 42;
+var first  = f(init);
+var second = g(first);
+var final  = h(second);
 
+//same as
+var final = h(g(f(init)));
 
+//same as
+var getFinal = _.compose(h, g, f);
+var final = getFinal(init);
+```
+
+<!-- Was man in Java&#45;Code leider oft sieht, ist das Speichern von Zwischenergebnissen wie hier im -->
+<!-- ersten Beispiel. Dahinter steckt aber nur, dass man das Zwischenergebnis einer Funktion in eine -->
+<!-- anderen Funktion überführt. Letztendlich also das gleiche, wie wir im zweiten Beispiel sehen. -->
+<!-- Wenn ich mit _.compose die Funktionen zusammenführe, hab ich letztlich das gleiche bewirkt kann -->
+<!-- aber oben drein diese Kombination von Funktionen als getFinal immer wieder verwenden. -->
+---
+class: middle, center
+##High Noon
+<img src="images/showdown.jpg" width="55%">
+---
+## Data-Source
+```javascript
+var customers = [
+  {
+    name: "Homer Simpson",
+    account: {
+      number: 123456,
+      amount: 10.34
+    },
+    name: "Montgomery Burns",
+    account: {
+      number: 666,
+      amount: 987654321.42
+    }
+  }
+];
+```
+<!-- Nehmen wir an uns liegt folgende Datenstruktur vor: -->
+<!-- Eine Liste von Kunden mit Name und einem Konto&#45;Objekt, -->
+<!-- welches neben der Konto&#45;Nummer auch den aktuellen -->
+<!-- Konto&#45;Stand enthält. -->
+<!-- Unsere Aufgabe ist es eine Namens&#45;Liste aller "Valuable Customers", -->
+<!-- also aller Kunden deren Vermögen mehr als 100000 Geldeinheiten -->
+<!-- beträgt. -->
+---
+```javascript
+var getAmount = _.compose(
+      get('amount'),
+      get('account')
+    ),
+    isValueable = function (customer) {
+      return getAmount(customer) > 100000;
+    },
+    getValuableCustomers = function(list) {
+      return _.filter(list, isValuable);
+    ),
+    listCustomers =
+
+_.forEach(
+  getValuableCustomers(),
+  function(customer) {
+     console.log(get('name')(customer));
+  }
+)
+//logs: Montgomery Burns
+```
+<!-- &#45; Mit _.compose und zwei Versionen von get können wir in die Datenstruktur -->
+<!--   iterieren und das Guthaben extrahieren. -->
+<!-- &#45; das Prädikat isValuable nutzt getAmount um auf Kundenebene entscheiden zu  -->
+<!--   können ob ein Kunde Wertvoll ist oder nicht. -->
+<!-- &#45; Wenn wir eine Funktion haben wollen, die uns alle wertvollen Kunde aus unserem -->
+<!--   gesamten Kundenstamm extrahiert, können wir _.curry auch auf _.filter -->
+<!--   anwenden, da _.filter keinerlei this&#45;bezug hat. Allerdings erwaret -->
+<!--   _.filter als ersten Parameter die zu filternde Liste uneben  -->
+<!--   Funktion an _.filter zu hängen, können wir mit dem Platzhalter "_" darauf hinweisen, -->
+<!--   dass  -->
+<!--  -->
+<!--   _Ck -->
+<!--  -->
 
     </textarea>
 
@@ -423,37 +530,3 @@ var slideshow = remark.create({
     </script>
   </body>
 </html>
-<!--  <mindmap> -->
-<!--  *wenn ich eine funktion curry was erreiche ich damit -->
-<!--  * ICH ERREICHE DASS EIN PARAMETER FESTGELEGT IST -->
-<!--  +HEIsst daas zwangsläufig auch, dass die funktion pure ist? Nein: -->
-<!--     selbst der festgetackerte parameter kann sich dynamishc ändern wenn er ein referenz objekt ist -->
-<!--  * aber ich kann annahmen &uuml;ber die Änderung des Parameters treffen -->
-<!--    dass er sich nicht ändert... dann muss ich ihn aber auch nicht zwingend -->
-<!--    currien -->
-<!-- * warum curry ich nen Parameter? -->
-<!--   Weil ich die Funktion in einem Kontext verwenden will, in der ich ihr -->
-<!--   diesen Parameter nicht zur Verf&uuml;gung stellen kann. -->
-<!--  -->
-<!--   get(member, obj) -->
-<!--   map([objs],get("name")) -->
-<!--   Was hat das nun mit dem unabhängig machen vom context zu tun? -->
-<!--   &#45;> Ich kann von der Funktion via curry viele Varianten bilden, -->
-<!--   die auf unterschiedliche Contexte passen. -->
-<!--  -->
-<!--  </mindmap> -->
-<!-- *separate pure from impure &#45;> to take advantage of memoization -->
-
-<!-- Verbesserungsvorschläge: -->
-<!-- &#45; Reduce life vorf&uuml;hrung -->
-<!-- &#45; Reduce beispiel mit Sum, Beispiel mit gr&ouml;ßer werdendem Array -->
-<!--  -->
-<!-- &#45; Partial application life Vorf&uuml;hrung -->
-<!-- &#45; Klarstellen, dass es darauf ankommt, die Parameteranzahl auf 1 oder 0 zu bekommen, -->
-<!--    so dass man die Funktionen mit map, und reduce gut verwenden kann. -->
-<!--  -->
-<!--    ?brauchen wir &uuml;berhaupt reduce? -->
-<!--  -->
-<!-- &#45; Live vorf&uuml;hrung memoize mit chatty add -->
-<!--    !!! lodash wird auf der repl schnell undefined &#45; warum? !!! -->
-<!--  -->
