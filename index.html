@@ -23,33 +23,75 @@
   </head>
   <body>
     <textarea id="source">
+name: bg
+layout: true
 
-
-class: center, middle
-
-# The Magic of Functional Programming
-## for DAB
+background-image: url('images/cb_background_rechts.png')
 
 ---
+name: title
+layout: true
+template: bg
+
 class: center, middle
-## How does Harry Potter let a book float?
-<img src="images/harry_potter.jpg" width="60%">
+#{{main}}
+###{{sub}}
+---
+name: slide
+layout: true
+template: bg
+
+##{{title}}
+
+---
+name: bottomed_image
+layout: true
+template: bg
+class: center, middle
+<img src="{{src}}" width="{{width}}">
+##{{title}}
+---
+name: titled_image
+layout: true
+template: slide
+class: center, middle
+<img src="{{src}}" width="{{width}}">
+
+---
+name: image
+layout: true
+template: bg
+class: center, middle
+<img src="{{src}}" width="{{width}}">
+
+---
+template: title
+main: The Magic of Functional Programming
+sub: for Team Ada
+
+---
+template: titled_image
+title: How does Harry Potter let a book float?
+src: images/harry_potter.jpg
+width: 60%
 
 <!-- &#45; Steht er mit einer höheren Macht im Bunde? -->
 <!-- &#45; Ruft er die "float"&#45;Methode des Buch&#45;Objekts auf? -->
 <!-- &#45; Zieht er vielleicht alle Luftmoleküle unter dem Buch zusammen, so dass ein Luftkissen entsteht? -->
 
 ---
-class: center, middle
-##Nah - he is not that smart!
-<img src="images/harry_potter_brain.jpg" width="60%">
+template: titled_image
+title: Nah - he is not that smart!
+src: images/harry_potter_brain.jpg
+width: 60%
 <!-- &#45; Höhere Macht ist zwar Möglich, aber was wäre dann HP ohne diese Macht? Warum dreht sich  -->
 <!--   dann in den Geschichten nicht alles um Gott oder den Teufel -->
 <!-- &#45; Wenn es am Buch tatsächlich eine "float"&#45;Methode geben sollte, würde ich mir ernsthaft -->
 <!--   um das Design der Realität sorgen machen. -->
 <!-- &#45; Vielleicht, aber wie wählt er die Moleküle aus? -->
 ---
-## Harry Potter's magic spell
+template: slide
+title: Harry Potter's magic spell
 * is unique
 * is not connected to the book directly
 * can be combined with other spells
@@ -71,8 +113,9 @@ class: center, middle
 <!-- viel leichter diese Anforderungen erfüllen können... -->
 
 ---
-class: center, middle
-<img src="images/what_if_functional.jpg" width="80%">
+template: image
+src: images/what_if_functional.jpg
+width: 85%
 
 <!-- Wenn Ihr schon mal JavaScript geschrieben habt, habt ihr mit großer Wahrscheinlichkeit schon mal -->
 <!-- ansatzweise Funktional programmiert. Das kommt daher, dass Brendan Eich bei der Entwicklung von JavaScript -->
@@ -82,7 +125,9 @@ class: center, middle
 <!-- Was aber die wahre Macht von JavaScript ausmacht, sind Features die erst kürzlich Java8 hinzugefügt wurden. -->
 <!-- Damit meine ich z.B. Lamdas und Closures -->
 ---
-##Functions are "First-Class-Citizens"
+template: slide
+title: Functions are "First-Class-Citizens"
+
 ```javascript
 var clickHandler = function () {
   console.log("Click occured.");
@@ -94,7 +139,8 @@ $(document).on("click", clickhandler);
 <!-- &#45; anderen Funktionen als Parameter über geben werden,  -->
 <!-- &#45; ja sogar Rückgabewerte von anderen Funktionen sein. -->
 ---
-##Closures
+template: slide
+title: Closures
 ```javascript
 var remember = function () {
   var value = 42;
@@ -114,7 +160,8 @@ extract(); //42
 <!-- Speicherzustand nennt man Clousre. -->
 
 ---
-##Higher Order Functions
+template: slide
+title: Higher Order Functions
 ```javascript
 var myParams = [1,2,3],
     sliceParams = myParams
@@ -129,9 +176,10 @@ setTimeout(sliceParams, 1000);
 <!-- Funktionen als Rückgabewert zurück. -->
 
 ---
-class: center, middle
-##... and I'll show you how deep the rabbit hole goes ...
-<img src="images/the-matrix-red-or-blue-pill-o.gif", width="100%">
+template: bottomed_image
+title: ... and I'll show you how deep the rabbit hole goes ...
+src: images/the-matrix-red-or-blue-pill-o.gif
+width: 100%
 
 <!-- Durch diese Grundlagen ergeben sich ganz neue, ungeahnte Möglichkeiten zur Code&#45;Strukturierung.  -->
 <!-- Ich für meinen Teil habe mir völlig neue Denkmuster über das Programmieren zugelegt und glaube -->
@@ -141,9 +189,10 @@ class: center, middle
 <!-- Programmierung angefreundet haben empfinden ebenso. Ich wette, es wird Euch ähnlich ergehen, wenn -->
 <!-- ihr nach meinem Vortrag tiefer einsteigt. -->
 ---
-class: center, middle
-## Reduce Complexity
-<img src="images/groundhog_day.gif" width="100%">
+template: titled_image
+title: Reduce Complexity
+src: images/groundhog_day.gif
+width: 100%
 <!-- Für mich hat Funktionale Prorammierung angefangen, als ich noch mit C++ Navi&#45;Software geschrieben  -->
 <!-- habe. Ständig habe ich furchtbar umständlichen Code geschrieben, der kaum wartbar war. Teilweise -->
 <!-- sogar nach der Copy&#38;Paste&#45;Methode. -->
@@ -151,7 +200,9 @@ class: center, middle
 <!-- wieder mal Tipfehler reingebaut habe, die ich nicht auf den ersten Blick erkennen konnte.  -->
 <!-- Ich habe gelernt, wie wichtig es ist, jede Möglichkeit Komplexität im Code zu reduzieren.  -->
 ---
-## What is the problem with this kind of loop?
+template: slide
+title: What is the problem with this kind of loop?
+
 ```javascript
 var nums = [1,2,3];
 for(var i = 0; i &lt; nums.length; i++) {
@@ -166,7 +217,9 @@ for(var i = 0; i &lt; nums.length; i++) {
 <!-- &#45; Wir müssen nochmal extra das Element, welches uns interessiert, aus der Liste extrahieren -->
 
 ---
-## JavaScript can do far better then that
+template: slide
+title: JavaScript can do far better then that
+
 ```javascript
 [1,2,3].forEach(function (num) {
   console.log(num);
@@ -183,9 +236,10 @@ for(var i = 0; i &lt; nums.length; i++) {
 <!-- arbeiten. Dieser Code ist weniger komplex, leichter zu Verstehen und elegant. -->
 
 ---
-class: middle, center
-#Side Effects
-<img src="images/butterfly_effect.gif" width="90%">
+template: titled_image
+title: Side Effects
+src: images/butterfly_effect.gif
+width:90%
 
 <!-- Aber forEach hat ein Problem. Es eignet sich nur für das gewollte Ausführen von Seiten effekten. -->
 <!-- Was ist ein Seiten&#45;Effekt? -->
@@ -205,7 +259,9 @@ class: middle, center
 <!-- Prozessoren ausgeführt werden, um dann die Ergebnisse aller Threads wieder zu einem Ausgabe&#45;Array -->
 <!-- zusammen zu führen.  -->
 ---
-## forEach is not appropriate for mutation
+template: slide
+title: forEach is not appropriate for mutation
+
 ```javascript
 [1,2,3].forEach(function (num) {
   return num * num;
@@ -222,7 +278,9 @@ class: middle, center
 <!--  -->
 <!-- Das wird mit forEach nicht funktionieren. Per Defaut liefert forEach nur undefined zurück. -->
 ---
-## map lets you create a new version of an array
+template: slide
+title: map lets you create a new version of an array
+
 ```javascript
 [1,2,3].map(function (num) {
   return num * num;
@@ -235,7 +293,8 @@ class: middle, center
 <!-- Beispiel, seiteneffekt&#45;frei die Quadrate einer Liste ermittelt werden können. .map ist vermutlich -->
 <!-- eine der wichtigsten Funktionen in der funktionalen Denke. -->
 ---
-## By the way...
+template: slide
+title: By the way...
 ```javascript
 var square = function (x) {
   return x * x
@@ -252,13 +311,16 @@ var square = function (x) {
 <!-- es noch weitere Beispiele. -->
 <!--  -->
 ---
-class: center, middle
-<img src="images/funny_or_not.jpg" width="90%">
+template: image
+src: images/funny_or_not.jpg
+width: 90%
 <!-- Jean&#45;Luc hier hat das Problem, dass er zwischen lustigen und unlustigen Witzen unterscheiden soll. -->
 <!-- Wenn wir nun eine Funktion schreiben, die ihm das erlaubt, wie sieht ihr Interface aus und wo -->
 <!-- könnte man die Funktion noch einsetzen. -->
 ---
-## Predicate-Function
+template: slide
+title: Predicate-Function
+
 ```javascript
 var isFunny= function (joke) {
   return Boolean(joke.pointe);
@@ -274,7 +336,9 @@ only a boolean value.
 <!-- &#45; Genauso kann eine Prädikatis&#45;Funktion dazu dienen Elemente, die eine -->
 <!--   bestimmte Eigenschaft nicht erfüllen zu filtern: -->
 ---
-##Filter
+template: slide
+title: Filter
+
 ```javascript
 var jokes = [
   { type: "Chuck-Norris",
@@ -295,9 +359,10 @@ jokes.filter(isFunny);
 <!-- Beispiel nur der Chuck&#45;Norris&#45;Witz übrig bleibt, da die pointe des Mathe&#45;Witzes "undefined" ergibt -->
 
 ---
-class: center, middle
-## Apply Functions Partially
-<img src="images/partial.jpg" width = "100%">
+template: titled_image
+title: Apply Functions Partially
+src: images/partial.jpg
+width: 100%
 
 <!-- &#45; Was haben nun die bisher gezeigten Schleifen&#45;Funktionen gemeinsam? -->
 <!--     &#45;> Sie haben nur einen Parameter &#45; nämlich das Listenelement, das wir  -->
@@ -308,7 +373,9 @@ class: center, middle
 
 
 ---
-## Arity
+template: slide
+title: Arity
+
 ```javascript
 var get = function (property, obj) {
   return obj[property];
@@ -323,7 +390,9 @@ var get = function (property, obj) {
 <!-- dann hab ich ein Problem. Denn .map liefert mir immer nur einen Parameter der Liste.  -->
 <!--     &#45;> Was tun, wenn ich sie nun doch direkt in so eine Schleifen&#45;Funktion übergeben will? -->
 ---
-## Data
+template: slide
+title: Data
+
 ```javascript
 customers = [
   {
@@ -338,7 +407,8 @@ customers = [
 ```
 
 ---
-##Embedding in a Function
+template: slide
+title: Embedding in a Function
 ```javascript
 var getName = function(obj) {
   return get('name', obj);
@@ -348,13 +418,15 @@ getName(customers[0]) //"Homer Simpson"
 customers.map(getName);
 //["Homer Simpson", "Montgomery Burns"]
 ```
-<!-- Wenn wir add nicht neu schreiben wollen, (weil die funktion ja so komplex ist ;) dann können wir -->
-<!-- add von einer neuen Funktion aus aufrufen. -->
+<!-- Wenn wir get nicht neu schreiben wollen, (weil die funktion ja so komplex ist ;) dann können wir -->
+<!--  get von einer neuen Funktion aus aufrufen. -->
 <!-- In diesem Beispiel hier packen wir add in ein Closure,  und legen für a den Wert 2 fest, so dass die neue Funktion inc2 jedweden  -->
 <!-- Parameter um 2 erhöt. inc2 benötigt nun nur noch den Parameter und kann Problemlos in .map übergeben  -->
 <!-- werden. -->
 ---
-##Binding a Function
+template: slide
+title: Binding a Function
+
 ```javascript
 var getName = get.bind(null, 'name')
 getName(customer[0]) //"Homer Simpson"
@@ -373,7 +445,9 @@ getName(customer[0]) //"Homer Simpson"
 <!-- D.h. auch hier weisen wir dem Parameter a von add den Wert 2 zu. -->
 
 ---
-##_.partial
+template: slide
+title: _.partial
+
 ```javascript
 var getName = _.partial(get, 'name');
 
@@ -398,15 +472,16 @@ getHomers('adress') //WilcoxDrive 4
 <!-- zur Verfügung steht. -->
 
 ---
-<br><br>
-<br><br>
-<img src="images/lego.jpg" width="100%">
+template: image
+src: images/lego.jpg
+width: 100%
 <!-- Im letzten Abschnitt möchte ich Euch noch zeigen, dass man die Funktionen die wir bis jetzt gebaut -->
 <!-- haben wie Legosteine Zusammensetzen kann um komplexere Anforderungen zu realisieren und das praktisch -->
 <!-- ohne Code Duplizierung. -->
 
 ---
-## _.compose
+template: slide
+title: _.compose
 ```javascript
 var init   = 42;
 var first  = f(init);
@@ -432,11 +507,14 @@ var final = getFinal(init);
 <!-- Richtig, die Filter in Templates :) -->
 <!--  -->
 ---
-class: middle, center
-##High Noon
-<img src="images/showdown.jpg" width="55%">
+template: titled_image
+title: Showdown
+src: images/showdown.jpg
+width: 55%
 ---
-## Data
+template: slide
+title: Data
+
 ```javascript
 var customers = [
   {
@@ -461,7 +539,9 @@ var customers = [
 <!-- also aller Kunden deren Vermögen mehr als 100000 Geldeinheiten -->
 <!-- beträgt. -->
 ---
-## Functional Programming
+template: slide
+title: Functional Programming
+
 ```javascript
 var getAmount = _.compose(
       _.partial(get, 'amount'),
@@ -470,11 +550,19 @@ var getAmount = _.compose(
     isValueable = function (customer) {
       return getAmount(customer) > 100000;
     },
-    getValuableCustomers = _.partial(_.filter, _, isValuable)
-    listCustomers = _.partial(_.forEach, _, _.compose(
-      console.log.bind(console)
-      _.partial(get, 'name')
-    ));
+    getValuableCustomers = _.partial(
+      _.filter,
+      _,
+      isValuable
+    )
+    listCustomers = _.partial(
+      _.forEach,
+      _,
+      _.compose(
+        console.log.bind(console)
+        _.partial(get, 'name')
+      )
+  );
 
 listCustomers(getValuableCustomers(customers));
 //logs: Montgomery Burns
@@ -491,10 +579,12 @@ listCustomers(getValuableCustomers(customers));
 Funktionen die gewünschte Funktionalität erreichen. -->
 
 ---
-class: center,middle
-<img src="images/thats_all_folks.gif" width="100%">
+template: image
+src: images/thats_all_folks.gif
+width: 100%
 ---
-## A naive Implementation of partial
+template: slide
+title: A naive Implementation of partial
 
 ```javascript
 var partial = function (fn) {
