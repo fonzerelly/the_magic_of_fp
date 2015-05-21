@@ -470,6 +470,25 @@ getHomers('adress') //WilcoxDrive 4
 <!-- werden, so dass nur der darauffolgende Parameter festgehalten wird. Wie wir noch sehen werden ist -->
 <!-- das eine wichtige Eigenschaft von _.partial, die uns mit den JavaScript&#45;Eigenen Methoden nicht -->
 <!-- zur Verfügung steht. -->
+---
+template: slide
+title: _.curry
+
+```javascript
+var getName = _.curry(function(obj) {
+  return get('name', obj);
+});
+
+var getName = get('name');
+
+_.map(customers, getName);
+//["Homer Simpson", "Montgomery Burns"]
+
+//or even
+_.map(customers, get('adress'));
+//["WilcoxDrive 4", "BurnsMountain 1"]
+
+```
 
 ---
 template: image
@@ -513,23 +532,40 @@ src: images/showdown.jpg
 width: 55%
 ---
 template: slide
-title: Data
+title: The Task
 
 ```javascript
-var customers = [
-  {
-    name: "Homer Simpson",
-    account: {
-      number: 123456,
-      amount: 10.34
-    },
-    name: "Montgomery Burns",
-    account: {
-      number: 666,
-      amount: 987654321.42
+//We have an Url-String like this
+var search = "?login=homer&password=doh!";
+
+//We want to convert it into a list of pairs
+var result = [
+  ["login", "homer"],
+  ["password", "doh!"]
+];
+```
+---
+template: slide
+title: The imperative solution
+
+```javascript
+var extractPairs = function(string) {
+  string = string.slice(1);
+  var result = [], currentWord = "", key;
+  for (var i = 0; i<= string.length; i++) {
+    var c = string[i];
+    if (c === "&" || string.length === i) {
+      result.push([key, currentWord]);
+      currentWord = "";
+    } else if (c === "=") {
+      key = currentWord;
+      currentWord = "";
+    } else {
+      currentWord += c;
     }
   }
-];
+  return result;
+}
 ```
 <!-- Nehmen wir an uns liegt folgende Datenstruktur vor: -->
 <!-- Eine Liste von Kunden mit Name und einem Konto&#45;Objekt, -->
@@ -540,32 +576,22 @@ var customers = [
 <!-- beträgt. -->
 ---
 template: slide
-title: Functional Programming
+title: The functional Solution
 
 ```javascript
-var getAmount = _.compose(
-      _.partial(get, 'amount'),
-      _.partial(get, 'account')
-    ),
-    isValueable = function (customer) {
-      return getAmount(customer) > 100000;
-    },
-    getValuableCustomers = _.partial(
-      _.filter,
-      _,
-      isValuable
-    )
-    listCustomers = _.partial(
-      _.forEach,
-      _,
-      _.compose(
-        console.log.bind(console)
-        _.partial(get, 'name')
-      )
-  );
+var split = _.curry(function(separator, string) {
+  return string.split(separator);
+});
 
-listCustomers(getValuableCustomers(customers));
-//logs: Montgomery Burns
+var leave = _.curry(function(count, string) {
+  return string.slice(count);
+});
+
+var extractPairs = _.compose(
+   _.partial(_.map, _, split('=')),
+  split('&'),
+  leave(1)
+),
 ```
 <!-- &#45; Mit _.compose und zwei Versionen von get können wir in die Datenstruktur -->
 <!--   iterieren und das Guthaben extrahieren. -->
@@ -596,6 +622,28 @@ var partial = function (fn) {
   }
 };
 ```
+---
+template: slide
+title: A naive Implementation of curry
+
+```javascript
+function curry(fn) {
+  return function () {
+    if (fn.length &gt; arguments.length) {
+      var slice = Array.prototype.slice;
+      var args = slice.apply(arguments);
+      return function () {
+        return fn.apply(
+          null, args.concat(slice.apply(arguments))
+        );
+      };
+    }
+    return fn.apply(null, arguments);
+  };
+}
+
+```
+
 
 
     </textarea>
