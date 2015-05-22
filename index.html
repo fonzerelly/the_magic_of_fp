@@ -214,6 +214,7 @@ for(var i = 0; i &lt; nums.length; i++) {
 <!-- &#45; Wir müssen eine Zähler&#45;Variable pro Schleifendurchlauf mutieren -->
 <!-- &#45; Beim Vergleich der Zähler&#45;Variable zur Array&#45;Länge können sich leicht Fehler einschleichen -->
 <!-- &#45; Wir müssen nochmal extra das Element, welches uns interessiert, aus der Liste extrahieren -->
+<!-- Es steht lauter Zeug drin, was nichts mit der eigentlichen Aufgabe, n�mlich die zahlenl von 1&#45;3 auf der Konsole auszugeben, nix zu tun hat... -->
 
 ---
 template: slide
@@ -306,8 +307,9 @@ var square = function (x) {
 <!-- Dabei sei erwähnt, dass die Schreibweise mit der Funktion nicht einfach nur eine Durchgeknallte -->
 <!-- Methode ist eine Schleife zu schreiben. Was wir bisher gemacht haben, war dass wir stets eine  -->
 <!-- anonyme Funktion als Callback definiert haben. Das muss aber nicht so sein. Wir können ebenso gut -->
-<!-- benannte Funktionen übergeben, die wir auch an anderer Stelle wieder verwenden könnten. Dafür gibt -->
-<!-- es noch weitere Beispiele. -->
+<!-- benannte Funktionen übergeben, die wir auch an anderer Stelle wieder verwenden könnten.  -->
+<!-- Vor allem aber kann man nun direkt aus der Zeile Code ablesen was passiert. N�hmlich dass die Liste 1,2,3 quadriert wird. -->
+<!-- F�r die Wiederverwendung von Funktionen gibt es noch weitere Beispiele. -->
 <!--  -->
 ---
 template: image
@@ -474,8 +476,8 @@ template: slide
 title: _.curry
 
 ```javascript
-var getName = _.curry(function(obj) {
-  return get('name', obj);
+var get = _.curry(function(property, obj) {
+  return obj[property];
 });
 
 var getName = get('name');
